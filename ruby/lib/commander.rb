@@ -5,6 +5,8 @@ require 'position'
 require 'robot'
 
 class Commander
+  PLACE_REGEX = /place (?<x>\d), *(?<y>\d), *(?<direction>north|south|east|west)/.freeze
+
   attr_accessor :robot
 
   def initialize(board_size, output)
@@ -16,8 +18,8 @@ class Commander
     command = command.downcase
     if %w[move left right report].include?(command)
       @robot.send(command)
-    elsif command =~ /place (\d), *(\d), *(north|south|east|west)/
-      @robot.place(Position.new(Regexp.last_match(1).to_i, Regexp.last_match(2).to_i), Regexp.last_match(3).to_sym)
+    elsif match = command.match(PLACE_REGEX)
+      @robot.place(Position.new(match[:x].to_i, match[:y].to_i), match[:direction].to_sym)
     end
   end
 end
