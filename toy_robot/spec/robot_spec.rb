@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 require_relative '../lib/robot'
 
-describe Robot do
+RSpec.describe Robot do
   let(:board) { Board.new(5) }
   let(:robot) { Robot.new(board) }
 
@@ -10,18 +12,18 @@ describe Robot do
 
   describe 'place' do
     it 'can be placed' do
-      position = Position.new(1,1)
+      position = Position.new(1, 1)
       expect(robot.place(position, :next).position).to eq(position)
     end
 
     it 'cannot be placed on an invalid position' do
-      expect(robot.place(Position.new(1,6), :next).position).to eq(nil)
+      expect(robot.place(Position.new(1, 6), :next).position).to eq(nil)
     end
   end
 
   describe 'left' do
     before(:each) do
-      robot.place(Position.new(1,1), :north)
+      robot.place(Position.new(1, 1), :north)
     end
 
     it 'can turn left' do
@@ -38,7 +40,7 @@ describe Robot do
 
   describe 'right' do
     before(:each) do
-      robot.place(Position.new(1,1), :north)
+      robot.place(Position.new(1, 1), :north)
     end
 
     it 'can turn right' do
@@ -55,23 +57,23 @@ describe Robot do
 
   describe 'move' do
     before(:each) do
-      robot.place(Position.new(1,1), :north)
+      robot.place(Position.new(1, 1), :north)
     end
 
     it 'can move north' do
-      expect(robot.move.position).to eq(Position.new(1,2))
+      expect(robot.move.position).to eq(Position.new(1, 2))
     end
 
     it 'can move south' do
-      expect(robot.left.left.move.position).to eq(Position.new(1,0))
+      expect(robot.left.left.move.position).to eq(Position.new(1, 0))
     end
 
     it 'can move east' do
-      expect(robot.right.move.position).to eq(Position.new(2,1))
+      expect(robot.right.move.position).to eq(Position.new(2, 1))
     end
 
     it 'can move west' do
-      expect(robot.left.move.position).to eq(Position.new(0,1))
+      expect(robot.left.move.position).to eq(Position.new(0, 1))
     end
 
     it 'will not move if unplaced' do
@@ -79,7 +81,7 @@ describe Robot do
     end
 
     it 'will not move off the edge' do
-      edge = Position.new(0,0)
+      edge = Position.new(0, 0)
       expect(Robot.new(board).place(edge, :south).move.position).to eq(edge)
     end
   end
@@ -90,7 +92,7 @@ describe Robot do
     end
 
     it 'returns position and direction when placed' do
-      expect(robot.place(Position.new(1,1), :north).to_s).to eq('1,1,NORTH')
+      expect(robot.place(Position.new(1, 1), :north).to_s).to eq('1,1,NORTH')
     end
   end
 end

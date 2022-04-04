@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'direction'
 
 class Robot
@@ -38,6 +40,7 @@ class Robot
 
   def to_s
     return 'UNPLACED' if @position.nil?
+
     "#{position.x},#{position.y},#{direction.to_s.upcase}"
   end
 end

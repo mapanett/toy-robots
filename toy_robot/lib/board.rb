@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #
 #  4.....
 #  3.....      N
@@ -16,6 +18,6 @@ class Board
   end
 
   def valid_position(position)
-    (0 <= position.x && position.x < @size) && (0 <= position.y && position.y < @size)
+    (position.x >= 0 && position.x < @size) && (position.y >= 0 && position.y < @size)
   end
 end
