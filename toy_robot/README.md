@@ -2,11 +2,11 @@
 
 A Ruby implementation of the toy robot exercise 
 
-Built on OS X 10.9.4 with Ruby 2.0.0p247
+Built on Ubuntu 20.04 with Ruby 3.1.1
 
 ## Usage
 
-echo "PLACE 0,0,NORTH\nMOVE\nREPORT" | ./bin/toy_robot.rb
+echo -e "PLACE 0,0,NORTH\nMOVE\nREPORT" | ./bin/toy_robot.rb
 
 or 
 
