@@ -21,7 +21,7 @@ class Commander
     when 'right'
       @robot.right
     when 'report'
-      return @robot.to_s
+      @robot.report
     when /place (\d), *(\d), *(north|south|east|west)/
       @robot.place(Position.new(Regexp.last_match(1).to_i, Regexp.last_match(2).to_i), Regexp.last_match(3).to_sym)
     end

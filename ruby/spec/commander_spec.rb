@@ -37,7 +37,8 @@ RSpec.describe Commander do
 
   it 'can report on the robots position' do
     commander.process_command('place 1,1,north')
+    commander.process_command('report')
 
-    expect(commander.process_command('report')).to eq('1,1,NORTH')
+    expect(string_writer.string).to eq("1,1,NORTH\n")
   end
 end

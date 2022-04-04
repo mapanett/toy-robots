@@ -5,9 +5,8 @@ $LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', 'lib')
 
 require_relative '../lib/commander'
 
-commander = Commander.new(5, STDOUT)
+commander = Commander.new(5, $stdout)
 
 ARGF.each do |line|
-  result = commander.process_command(line.chomp)
-  puts result unless result.nil?
+  commander.process_command(line.chomp)
 end
