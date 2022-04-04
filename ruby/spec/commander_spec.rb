@@ -4,7 +4,8 @@ require_relative '../lib/commander'
 require_relative '../lib/position'
 
 RSpec.describe Commander do
-  let(:commander) { Commander.new 5 }
+  let(:string_writer) { StringIO.new }
+  let(:commander) { Commander.new 5, string_writer }
 
   it 'creates a unplaced robot' do
     expect(commander.robot.position).to be_nil

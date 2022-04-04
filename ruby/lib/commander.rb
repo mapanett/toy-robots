@@ -7,9 +7,9 @@ require 'robot'
 class Commander
   attr_accessor :robot
 
-  def initialize(board_size)
+  def initialize(board_size, output)
     @board = Board.new(board_size)
-    @robot = Robot.new(@board)
+    @robot = Robot.new(@board, output)
   end
 
   def process_command(command)

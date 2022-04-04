@@ -1,10 +1,12 @@
 # frozen_string_literal: true
 
+require_relative '../lib/board'
 require_relative '../lib/robot'
 
 RSpec.describe Robot do
+  let(:string_writer) { StringIO.new }
   let(:board) { Board.new(5) }
-  let(:robot) { Robot.new(board) }
+  let(:robot) { Robot.new(board, string_writer) }
 
   it 'starts off unplaced' do
     expect(robot.position).to be_nil
@@ -22,11 +24,8 @@ RSpec.describe Robot do
   end
 
   describe 'left' do
-    before(:each) do
-      robot.place(Position.new(1, 1), :north)
-    end
-
     it 'can turn left' do
+      robot.place(Position.new(1, 1), :north)
       expect(robot.left.direction).to be(:west)
       expect(robot.left.direction).to be(:south)
       expect(robot.left.direction).to be(:east)
@@ -34,16 +33,16 @@ RSpec.describe Robot do
     end
 
     it 'will not change direction if unplaced' do
-      expect(Robot.new(board).left.direction).to be_nil
+      expect(robot.position).to be_nil
+      expect(robot.direction).to be_nil
+
+      expect(robot.left.direction).to be_nil
     end
   end
 
   describe 'right' do
-    before(:each) do
-      robot.place(Position.new(1, 1), :north)
-    end
-
     it 'can turn right' do
+      robot.place(Position.new(1, 1), :north)
       expect(robot.right.direction).to be(:east)
       expect(robot.right.direction).to be(:south)
       expect(robot.right.direction).to be(:west)
@@ -51,48 +50,57 @@ RSpec.describe Robot do
     end
 
     it 'will not change direction if unplaced' do
-      expect(Robot.new(board).right.direction).to be_nil
+      expect(robot.right.direction).to be_nil
     end
   end
 
   describe 'move' do
-    before(:each) do
-      robot.place(Position.new(1, 1), :north)
-    end
+    context 'when placed' do
+      before(:each) do
+        robot.place(Position.new(1, 1), :north)
+      end
 
-    it 'can move north' do
-      expect(robot.move.position).to eq(Position.new(1, 2))
-    end
+      it 'can move north' do
+        expect(robot.move.position).to eq(Position.new(1, 2))
+      end
 
-    it 'can move south' do
-      expect(robot.left.left.move.position).to eq(Position.new(1, 0))
-    end
+      it 'can move south' do
+        expect(robot.left.left.move.position).to eq(Position.new(1, 0))
+      end
 
-    it 'can move east' do
-      expect(robot.right.move.position).to eq(Position.new(2, 1))
-    end
+      it 'can move east' do
+        expect(robot.right.move.position).to eq(Position.new(2, 1))
+      end
 
-    it 'can move west' do
-      expect(robot.left.move.position).to eq(Position.new(0, 1))
+      it 'can move west' do
+        expect(robot.left.move.position).to eq(Position.new(0, 1))
+      end
     end
 
     it 'will not move if unplaced' do
-      expect(Robot.new(board).move.position).to be_nil
+      expect(robot.move.position).to be_nil
     end
 
     it 'will not move off the edge' do
       edge = Position.new(0, 0)
-      expect(Robot.new(board).place(edge, :south).move.position).to eq(edge)
+      expect(robot.place(edge, :south).move.position).to eq(edge)
     end
   end
 
   describe 'to_s' do
     it 'returns "unplaced" when unplaced' do
-      expect(Robot.new(board).to_s).to eq('UNPLACED')
+      expect(robot.to_s).to eq('UNPLACED')
     end
 
     it 'returns position and direction when placed' do
       expect(robot.place(Position.new(1, 1), :north).to_s).to eq('1,1,NORTH')
+    end
+  end
+
+  describe 'report' do
+    it 'can report' do
+      robot.place(Position.new(1, 1), :north).report
+      expect(string_writer.string).to eq("1,1,NORTH\n")
     end
   end
 end

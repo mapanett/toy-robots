@@ -5,10 +5,11 @@ require 'direction'
 class Robot
   attr_reader :position, :direction
 
-  def initialize(board)
+  def initialize(board, output)
     @board = board
     @position = nil
     @direction = nil
+    @output = output
   end
 
   def place(position, direction)
@@ -36,6 +37,10 @@ class Robot
       @position = next_position if @board.valid_position(next_position)
     end
     self
+  end
+
+  def report
+    @output.puts(self.to_s)
   end
 
   def to_s
