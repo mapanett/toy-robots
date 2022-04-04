@@ -27,7 +27,7 @@ RSpec.describe Commander do
   end
 
   it 'can place, move and turn the robot' do
-    ['place 1,1,north', 'left', 'move'].each do |command|
+    ['place 1,1,north', 'LEFT', 'move'].each do |command|
       commander.process_command(command)
     end
 

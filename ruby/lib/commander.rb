@@ -13,18 +13,11 @@ class Commander
   end
 
   def process_command(command)
-    case command.downcase
-    when 'move'
-      @robot.move
-    when 'left'
-      @robot.left
-    when 'right'
-      @robot.right
-    when 'report'
-      @robot.report
-    when /place (\d), *(\d), *(north|south|east|west)/
+    command = command.downcase
+    if %w[move left right report].include?(command)
+      @robot.send(command)
+    elsif command =~ /place (\d), *(\d), *(north|south|east|west)/
       @robot.place(Position.new(Regexp.last_match(1).to_i, Regexp.last_match(2).to_i), Regexp.last_match(3).to_sym)
     end
-    nil
   end
 end
